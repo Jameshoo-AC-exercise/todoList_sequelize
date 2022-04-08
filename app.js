@@ -96,7 +96,8 @@ app.post('/users/register', (req, res) => {
 })
 
 app.get('/users/logout', (req, res) => {
-  res.send('logout')
+  req.logout()
+  res.redirect('/users/login')
 })
 
 app.get('/todos/new', (req, res) => {
