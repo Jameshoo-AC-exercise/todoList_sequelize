@@ -106,6 +106,19 @@ app.get('/todos/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
+app.put('/todos/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    let { name, isDone } = req.body
+    isDone = isDone === 'on'
+
+    await Todo.update({ name, isDone }, { where: { id } })
+    res.redirect('/')
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`App is running on http://localhost:${PORT}`)
 })
