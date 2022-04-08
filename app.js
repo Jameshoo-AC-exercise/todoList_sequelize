@@ -111,8 +111,17 @@ app.put('/todos/:id', async (req, res) => {
     const id = req.params.id
     let { name, isDone } = req.body
     isDone = isDone === 'on'
-
     await Todo.update({ name, isDone }, { where: { id } })
+    res.redirect('/')
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+app.delete('/todos/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    await Todo.destroy({ where: { id } })
     res.redirect('/')
   } catch (err) {
     console.log(err)
