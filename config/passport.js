@@ -17,12 +17,14 @@ module.exports = app => {
           const user = await User.findOne({ where: { email } })
           if (!user)
             return done(null, false, {
-              message: 'That email is not registered!',
+              type: 'warning_msg',
+              message: `帳號 ${email} 還未注冊!`,
             })
           const isMatch = await bcrypt.compare(password, user.password)
           if (!isMatch)
             return done(null, false, {
-              message: 'Email or Password incorrect.',
+              type: 'warning_msg',
+              message: `帳號 ${email} 或密碼錯誤！`,
             })
           return done(null, user)
         } catch (err) {
@@ -32,13 +34,15 @@ module.exports = app => {
         //   .then(user => {
         //     if (!user) {
         //       return done(null, false, {
-        //         message: 'That email is not registered!',
+        //         type: 'warning_msg',
+        //         message: `帳號 ${email} 還未注冊!`,
         //       })
         //     }
         //     return bcrypt.compare(password, user.password).then(isMatch => {
         //       if (!isMatch) {
         //         return done(null, false, {
-        //           message: 'Email or Password incorrect.',
+        //           type: 'warning_msg',
+        //           message: `帳號 ${email} 或密碼錯誤！`,
         //         })
         //       }
         //       return done(null, user)

@@ -3,7 +3,8 @@ module.exports = {
     if (req.isAuthenticated()) {
       return next()
     }
-    // req.flash('warning_msg', '請先登入才能使用')
+    console.log('middleware_auth')
+    req.flash('warning_msg', '請先登入才能使用')
     res.redirect('/users/login')
   },
 }
