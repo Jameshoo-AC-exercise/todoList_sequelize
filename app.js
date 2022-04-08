@@ -31,13 +31,20 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
+app.use((req, res, next) => {
+  // 你可以在這裡 console.log(req.user) 等資訊來觀察
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
+
 app.get('/', (req, res) => {
   return Todo.findAll({
     raw: true,
     nest: true,
   })
     .then(todos => {
-      return res.render('index', { todos: todos })
+      return res.render('index', { todos })
     })
     .catch(error => {
       return res.status(422).json(error)
@@ -90,6 +97,18 @@ app.post('/users/register', (req, res) => {
 
 app.get('/users/logout', (req, res) => {
   res.send('logout')
+})
+
+app.get('/todos/new', (req, res) => {
+  res.render('new')
+})
+
+app.post('/todos/new', async (req, res) => {
+  const userId = req.user.id
+  let { name, isDone } = req.body
+  isDone = isDone === 'on'
+  await Todo.create({ name, isDone, UserId: userId })
+  res.redirect('/')
 })
 
 app.get('/todos/:id', (req, res) => {
