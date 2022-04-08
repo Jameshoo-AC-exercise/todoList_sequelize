@@ -5,9 +5,14 @@ const session = require('express-session')
 const routes = require('./routes')
 const usePassport = require('./config/passport')
 
+// dotenv start
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 // server start
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 // session start
 app.use(
