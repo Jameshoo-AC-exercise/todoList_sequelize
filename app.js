@@ -39,7 +39,9 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
+  const UserId = req.user.id
   return Todo.findAll({
+    where: { UserId },
     raw: true,
     nest: true,
   })
@@ -105,10 +107,10 @@ app.get('/todos/new', (req, res) => {
 })
 
 app.post('/todos/new', async (req, res) => {
-  const userId = req.user.id
+  const UserId = req.user.id
   let { name, isDone } = req.body
   isDone = isDone === 'on'
-  await Todo.create({ name, isDone, UserId: userId })
+  await Todo.create({ name, isDone, UserId })
   res.redirect('/')
 })
 
