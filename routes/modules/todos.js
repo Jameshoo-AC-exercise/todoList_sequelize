@@ -19,24 +19,27 @@ router.post('/new', async (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = req.params.id
-  return Todo.findByPk(id)
+  const UserId = req.user.id
+  return Todo.findOne({ where: { id, UserId } })
     .then(todo => res.render('detail', { todo: todo.toJSON() }))
     .catch(error => console.log(error))
 })
 
 router.get('/:id/edit', (req, res) => {
   const id = req.params.id
-  return Todo.findByPk(id)
-    .then(todo => res.render('edit', { todo: todo.toJSON() }))
+  const UserId = req.user.id
+  return Todo.findOne({ where: { id, UserId } })
+    .then(todo => res.render('edit', { todo: todo.get() }))
     .catch(error => console.log(error))
 })
 
 router.put('/:id', async (req, res) => {
   try {
     const id = req.params.id
+    const UserId = req.user.id
     let { name, isDone } = req.body
     isDone = isDone === 'on'
-    await Todo.update({ name, isDone }, { where: { id } })
+    await Todo.update({ name, isDone }, { where: { id, UserId } })
     res.redirect('/')
   } catch (err) {
     console.log(err)
@@ -46,7 +49,8 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id
-    await Todo.destroy({ where: { id } })
+    const UserId = req.user.id
+    await Todo.destroy({ where: { id, UserId } })
     res.redirect('/')
   } catch (err) {
     console.log(err)
