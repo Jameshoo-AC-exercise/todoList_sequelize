@@ -30,25 +30,6 @@ module.exports = app => {
         } catch (err) {
           console.log(err)
         }
-        // User.findOne({ where: { email } })
-        //   .then(user => {
-        //     if (!user) {
-        //       return done(null, false, {
-        //         type: 'warning_msg',
-        //         message: `帳號 ${email} 還未注冊!`,
-        //       })
-        //     }
-        //     return bcrypt.compare(password, user.password).then(isMatch => {
-        //       if (!isMatch) {
-        //         return done(null, false, {
-        //           type: 'warning_msg',
-        //           message: `帳號 ${email} 或密碼錯誤！`,
-        //         })
-        //       }
-        //       return done(null, user)
-        //     })
-        //   })
-        //   .catch(err => done(err, false))
       }
     )
   )

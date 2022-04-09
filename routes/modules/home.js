@@ -16,17 +16,6 @@ router.get('/', async (req, res) => {
   } catch (err) {
     console.log(err)
   }
-  // return Todo.findAll({
-  //   where: { UserId },
-  //   raw: true,
-  //   nest: true,
-  // })
-  //   .then(todos => {
-  //     return res.render('index', { todos })
-  //   })
-  //   .catch(error => {
-  //     return res.status(422).json(error)
-  //   })
 })
 
 module.exports = router
